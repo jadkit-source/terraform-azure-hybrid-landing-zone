@@ -8,6 +8,17 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
+  ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
+  ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
+  ARM_USE_OIDC: true
+  ARM_USE_AZUREAD: true
+
 jobs:
   terraform-checks:
     runs-on: ubuntu-latest
@@ -24,16 +35,24 @@ jobs:
 
       - name: Terraform Init - Dev
         working-directory: environments/dev
-        run: terraform init -backend=false
+        run: terraform init
 
       - name: Terraform Validate - Dev
         working-directory: environments/dev
         run: terraform validate
 
+      - name: Terraform Plan - Dev
+        working-directory: environments/dev
+        run: terraform plan -input=false
+
       - name: Terraform Init - Prod
         working-directory: environments/prod
-        run: terraform init -backend=false
+        run: terraform init
 
       - name: Terraform Validate - Prod
         working-directory: environments/prod
         run: terraform validate
+
+      - name: Terraform Plan - Prod
+        working-directory: environments/prod
+        run: terraform plan -input=false
