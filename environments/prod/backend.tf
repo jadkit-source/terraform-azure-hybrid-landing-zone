@@ -6,6 +6,5 @@ terraform {
     key                  = "prod.terraform.tfstate"
 
     use_azuread_auth = true
-    use_cli          = true
   }
 }
