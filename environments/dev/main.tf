@@ -6,6 +6,7 @@ module "resource_group" {
   tags     = local.common_tags
 }
 
+# Development virtual network and subnet configuration
 module "networking" {
   source = "../../modules/networking"
 
