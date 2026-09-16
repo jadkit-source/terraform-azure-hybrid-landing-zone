@@ -53,3 +53,12 @@ nsgs = {
     }
   }
 }
+
+route_table_name = "rt-workload-dev"
+
+routes = {
+  internet = {
+    address_prefix = "0.0.0.0/0"
+    next_hop_type  = "Internet"
+  }
+}

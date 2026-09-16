@@ -49,3 +49,15 @@ variable "nsgs" {
     }))
   }))
 }
+
+variable "route_table_name" {
+  type = string
+}
+
+variable "routes" {
+  type = map(object({
+    address_prefix         = string
+    next_hop_type          = string
+    next_hop_in_ip_address = optional(string)
+  }))
+}
