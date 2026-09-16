@@ -51,3 +51,41 @@ resource "azurerm_subnet_route_table_association" "workload" {
   subnet_id      = module.networking.subnet_ids["snet-workload"]
   route_table_id = module.route_table.route_table_id
 }
+
+module "private_dns_zone" {
+  source = "../../modules/private-dns-zone"
+
+  name                = var.private_dns_zone_name
+  resource_group_name = module.resource_group.name
+  vnet_link_name      = var.private_dns_vnet_link_name
+  virtual_network_id  = module.networking.vnet_id
+  tags                = local.common_tags
+}
+
+module "storage_account" {
+  source = "../../modules/storage-account"
+
+  name                = var.storage_account_name
+  resource_group_name = module.resource_group.name
+  location            = var.location
+  tags                = local.common_tags
+}
+
+module "private_endpoint" {
+  source = "../../modules/private-endpoint"
+
+  name                = var.private_endpoint_name
+  location            = var.location
+  resource_group_name = module.resource_group.name
+
+  subnet_id = module.networking.subnet_ids["snet-private-endpoint"]
+
+  private_connection_resource_id = module.storage_account.id
+  subresource_names              = ["blob"]
+
+  private_dns_zone_ids = [
+    module.private_dns_zone.id
+  ]
+
+  tags = local.common_tags
+}

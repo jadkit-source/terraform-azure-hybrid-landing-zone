@@ -61,3 +61,19 @@ variable "routes" {
     next_hop_in_ip_address = optional(string)
   }))
 }
+
+variable "private_dns_zone_name" {
+  type = string
+}
+
+variable "private_dns_vnet_link_name" {
+  type = string
+}
+
+variable "storage_account_name" {
+  type = string
+}
+
+variable "private_endpoint_name" {
+  type = string
+}

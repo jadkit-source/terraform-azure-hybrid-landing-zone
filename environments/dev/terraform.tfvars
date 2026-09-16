@@ -62,3 +62,9 @@ routes = {
     next_hop_type  = "Internet"
   }
 }
+
+private_dns_zone_name      = "privatelink.blob.core.windows.net"
+private_dns_vnet_link_name = "link-vnet-hybrid-lz-dev"
+
+storage_account_name  = "sthybridlzdev1023"
+private_endpoint_name = "pep-blob-hybrid-lz-dev"
