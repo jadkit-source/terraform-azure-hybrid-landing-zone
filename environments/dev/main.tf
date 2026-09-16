@@ -27,6 +27,16 @@ module "nsg" {
   tags                = local.common_tags
 }
 
+module "route_table" {
+  source = "../../modules/route-table"
+
+  location            = var.location
+  name                = var.route_table_name
+  routes              = var.routes
+  resource_group_name = module.resource_group.name
+  tags                = local.common_tags
+}
+
 resource "azurerm_subnet_network_security_group_association" "this" {
   for_each = {
     "snet-management" = "nsg-management"
@@ -35,4 +45,9 @@ resource "azurerm_subnet_network_security_group_association" "this" {
 
   subnet_id                 = module.networking.subnet_ids[each.key]
   network_security_group_id = module.nsg.nsg_ids[each.value]
+}
+
+resource "azurerm_subnet_route_table_association" "workload" {
+  subnet_id      = module.networking.subnet_ids["snet-workload"]
+  route_table_id = module.route_table.route_table_id
 }
