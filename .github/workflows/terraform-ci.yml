@@ -9,6 +9,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: terraform-${{ github.ref }}
+  cancel-in-progress: false
+
 permissions:
   id-token: write
   contents: read
@@ -51,7 +55,7 @@ jobs:
 
       - name: Terraform Plan - Dev
         working-directory: environments/dev
-        run: terraform plan -input=false
+        run: terraform plan -input=false -lock-timeout=5m
 
       # -------------------------
       # PROD
@@ -67,7 +71,7 @@ jobs:
 
       - name: Terraform Plan - Prod
         working-directory: environments/prod
-        run: terraform plan -input=false
+        run: terraform plan -input=false -lock-timeout=5m
 
 
   terraform-apply-dev:
@@ -97,4 +101,4 @@ jobs:
 
       - name: Terraform Apply - Dev
         working-directory: environments/dev
-        run: terraform apply -auto-approve -input=false
+        run: terraform apply -auto-approve -input=false -lock-timeout=5m
