@@ -68,3 +68,5 @@ private_dns_vnet_link_name = "link-vnet-hybrid-lz-dev"
 
 storage_account_name  = "sthybridlzdev1023"
 private_endpoint_name = "pep-blob-hybrid-lz-dev"
+
+ssh_public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDQ9nuUv811zddfG33YEYyAY5V4DCVdLldDVhyrx7+P/ terraform-lab"
