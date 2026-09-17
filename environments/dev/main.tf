@@ -98,7 +98,7 @@ module "linux_vm" {
   resource_group_name = module.resource_group.name
   subnet_id           = module.networking.subnet_ids["snet-workload"]
 
-  vm_size        = "Standard_A1_v2"
+  vm_size        = "Standard_DS2_v2_Promo"
   admin_username = "azureadmin"
 
   ssh_public_key = var.ssh_public_key
