@@ -1,0 +1,73 @@
+name: Terraform PROD Apply
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: terraform-hybrid-landing-zone
+  cancel-in-progress: false
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
+  ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
+  ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
+  ARM_USE_OIDC: true
+  ARM_USE_AZUREAD: true
+
+jobs:
+
+  terraform-plan-prod:
+    name: Terraform Plan - Prod
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init - Prod
+        working-directory: environments/prod
+        run: terraform init
+
+      - name: Terraform Validate - Prod
+        working-directory: environments/prod
+        run: terraform validate
+
+      - name: Terraform Plan - Prod
+        working-directory: environments/prod
+        run: terraform plan -input=false -lock-timeout=5m
+
+
+  terraform-apply-prod:
+    name: Terraform Apply - Prod
+
+    needs:
+      - terraform-plan-prod
+
+    runs-on: ubuntu-latest
+
+    environment:
+      name: prod
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init - Prod
+        working-directory: environments/prod
+        run: terraform init
+
+      - name: Terraform Apply - Prod
+        working-directory: environments/prod
+        run: terraform apply -auto-approve -input=false -lock-timeout=5m
