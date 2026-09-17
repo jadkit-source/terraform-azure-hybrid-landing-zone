@@ -89,3 +89,19 @@ module "private_endpoint" {
 
   tags = local.common_tags
 }
+
+module "linux_vm" {
+  source = "../../modules/linux-vm"
+
+  name                = "vm-${local.naming_prefix}-01"
+  location            = var.location
+  resource_group_name = module.resource_group.name
+  subnet_id           = module.networking.subnet_ids["snet-workload"]
+
+  vm_size        = "Standard_B2ts_v2"
+  admin_username = "azureadmin"
+
+  ssh_public_key = var.ssh_public_key
+
+  tags = local.common_tags
+}

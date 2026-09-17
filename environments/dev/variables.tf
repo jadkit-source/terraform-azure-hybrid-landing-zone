@@ -77,3 +77,8 @@ variable "storage_account_name" {
 variable "private_endpoint_name" {
   type = string
 }
+
+variable "ssh_public_key" {
+  type = string
+}
+
