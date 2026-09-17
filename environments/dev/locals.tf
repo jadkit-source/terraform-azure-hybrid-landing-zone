@@ -7,6 +7,5 @@ locals {
     ManagedBy   = "Terraform"
     Owner       = var.owner
     CostCenter  = var.cost_center
-    ChangeTest  = "approval-gate"
   }
 }
