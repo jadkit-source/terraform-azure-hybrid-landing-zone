@@ -82,3 +82,9 @@ variable "ssh_public_key" {
   type = string
 }
 
+variable "windows_admin_password" {
+  description = "Administrator password for Windows VM"
+  type        = string
+  sensitive   = true
+}
+
