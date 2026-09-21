@@ -105,3 +105,19 @@ module "linux_vm" {
 
   tags = local.common_tags
 }
+
+module "windows_vm" {
+  source = "../../modules/windows-vm"
+
+  name                = "vm-${local.naming_prefix}-02"
+  computer_name       = "win-dev-02"
+  location            = var.location
+  resource_group_name = module.resource_group.name
+  subnet_id           = module.networking.subnet_ids["snet-workload"]
+
+  vm_size        = "Standard_DS2_v2_Promo"
+  admin_username = "azureadmin"
+  admin_password = var.windows_admin_password
+
+  tags = local.common_tags
+}

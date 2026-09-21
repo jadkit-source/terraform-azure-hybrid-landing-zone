@@ -13,3 +13,7 @@ output "principal_id" {
 output "tenant_id" {
   value = azurerm_linux_virtual_machine.this.identity[0].tenant_id
 }
+
+output "vm_name" {
+  value = azurerm_linux_virtual_machine.this.name
+}
