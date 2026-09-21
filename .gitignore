@@ -13,6 +13,10 @@ crash.*.log
 *.tfvars
 *.tfvars.json
 
+# Allow only the CI-safe variable file
+!environments/dev/dev.ci.tfvars
+!environments/prod/prod.ci.tfvars
+
 # Override files
 override.tf
 override.tf.json
@@ -25,10 +29,6 @@ override.tf.json
 # Terraform CLI configuration
 .terraformrc
 terraform.rc
-
-# These environment files contain non-sensitive configuration only
-!environments/dev/terraform.tfvars
-!environments/prod/terraform.tfvars
 
 # Local environment / OS files
 .env
