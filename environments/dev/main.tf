@@ -90,6 +90,49 @@ module "private_endpoint" {
   tags = local.common_tags
 }
 
+data "azurerm_client_config" "current" {}
+
+module "key_vault" {
+  source = "../../modules/key-vault"
+
+  name                = var.key_vault_name
+  location            = var.location
+  resource_group_name = module.resource_group.name
+  tenant_id           = data.azurerm_client_config.current.tenant_id
+
+  tags = local.common_tags
+}
+
+module "private_dns_zone_key_vault" {
+  source = "../../modules/private-dns-zone"
+
+  name                = var.key_vault_private_dns_zone_name
+  resource_group_name = module.resource_group.name
+  vnet_link_name      = var.key_vault_private_dns_vnet_link_name
+  virtual_network_id  = module.networking.vnet_id
+
+  tags = local.common_tags
+}
+
+module "private_endpoint_key_vault" {
+  source = "../../modules/private-endpoint"
+
+  name                = var.key_vault_private_endpoint_name
+  location            = var.location
+  resource_group_name = module.resource_group.name
+
+  subnet_id = module.networking.subnet_ids["snet-private-endpoint"]
+
+  private_connection_resource_id = module.key_vault.id
+  subresource_names              = ["vault"]
+
+  private_dns_zone_ids = [
+    module.private_dns_zone_key_vault.id
+  ]
+
+  tags = local.common_tags
+}
+
 module "linux_vm" {
   source = "../../modules/linux-vm"
 
@@ -121,3 +164,10 @@ module "windows_vm" {
 
   tags = local.common_tags
 }
+
+resource "azurerm_role_assignment" "windows_vm_key_vault" {
+  scope                = module.key_vault.id
+  role_definition_name = "Key Vault Secrets User"
+  principal_id         = module.windows_vm.principal_id
+}
+

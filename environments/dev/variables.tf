@@ -88,3 +88,19 @@ variable "windows_admin_password" {
   sensitive   = true
 }
 
+variable "key_vault_name" {
+  type = string
+}
+
+variable "key_vault_private_dns_zone_name" {
+  type = string
+}
+
+variable "key_vault_private_dns_vnet_link_name" {
+  type = string
+}
+
+variable "key_vault_private_endpoint_name" {
+  type = string
+}
+

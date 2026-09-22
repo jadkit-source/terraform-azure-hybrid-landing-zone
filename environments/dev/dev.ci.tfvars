@@ -71,3 +71,7 @@ private_endpoint_name = "pep-blob-hybrid-lz-dev"
 
 ssh_public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDQ9nuUv811zddfG33YEYyAY5V4DCVdLldDVhyrx7+P/ terraform-lab"
 
+key_vault_name                       = "kv-hybrid-lz-dev-1023"
+key_vault_private_dns_zone_name      = "privatelink.vaultcore.azure.net"
+key_vault_private_dns_vnet_link_name = "link-kv-hybrid-lz-dev"
+key_vault_private_endpoint_name      = "pep-kv-hybrid-lz-dev"
