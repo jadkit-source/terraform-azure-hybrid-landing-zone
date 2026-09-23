@@ -171,3 +171,4 @@ resource "azurerm_role_assignment" "windows_vm_key_vault" {
   principal_id         = module.windows_vm.principal_id
 }
 
+# Final CI/CD validation completed for the hybrid landing zone project
